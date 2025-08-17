@@ -24,18 +24,21 @@ app.use(cors({
 
 app.use(express.json());
 
-// Serve React frontend
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
-});
+// Serve React frontend static files FIRST
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
-// Your API routes
+// API routes should come BEFORE catch-all
 app.get('/api/helthCheck', (req, res) => {
   res.json({ message: 'Backend API working!' });
 });
 app.use("/api/summary", summaryRoutes);
 app.use("/api/email", emailRoutes);
 app.use("/api/transcripts", transcriptRoutes);
+
+// Catch-all route for React Router (must be LAST)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
+});
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
