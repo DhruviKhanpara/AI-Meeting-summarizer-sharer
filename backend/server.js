@@ -25,8 +25,9 @@ app.use(cors({
 app.use(express.json());
 
 // Serve React frontend
-// Serve React frontend
-app.use(express.static(path.join(__dirname, 'frontend/dist')));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
+});
 
 // Your API routes
 app.get('/api/helthCheck', (req, res) => {
