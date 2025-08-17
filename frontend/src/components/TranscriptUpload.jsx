@@ -9,6 +9,8 @@ function TranscriptUpload({ onUpload }) {
   const [file, setFile] = useState(null)
   const [error, setError] = useState('')
 
+  const backendURL = import.meta.env.VITE_BACKEND_URL || 'https://ai-meeting-summarizer-sharer.onrender.com'
+
   const handleFileUpload = async (e) => {
     const selectedFile = e.target.files[0]
     if (!selectedFile) return
@@ -28,27 +30,27 @@ function TranscriptUpload({ onUpload }) {
     if (fileExtension === 'txt') {
       const reader = new FileReader()
       reader.onload = (event) => {
-        setText(event.target.result);
-        onUpload(event.target.result);
+        setText(event.target.result)
+        onUpload(event.target.result)
       }
       reader.readAsText(selectedFile)
     } else if (fileExtension === 'docx') {
       try {
         const arrayBuffer = await selectedFile.arrayBuffer()
         const { value } = await mammoth.extractRawText({ arrayBuffer })
-        setText(value);
-        onUpload(value);
+        setText(value)
+        onUpload(value)
       } catch (err) {
         setError('Failed to extract text from .docx file.')
-        toast.error(err.response?.data?.message || 'Failed to extract text from .docx file.');
+        toast.error(err.response?.data?.message || 'Failed to extract text from .docx file.')
       }
     }
   }
 
   const handleChange = (e) => {
-    setText(e.target.value);
-    onUpload(e.target.value);
-  };
+    setText(e.target.value)
+    onUpload(e.target.value)
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -58,7 +60,7 @@ function TranscriptUpload({ onUpload }) {
         formData.append('file', file)
 
         const res = await axios.post(
-          'https://ai-meeting-summarizer-sharer.onrender.com/api/transcripts/file',
+          `${backendURL}/api/transcripts/file`,
           formData,
           { headers: { 'Content-Type': 'multipart/form-data' } }
         )
@@ -72,7 +74,7 @@ function TranscriptUpload({ onUpload }) {
         }
 
         const res = await axios.post(
-          'https://ai-meeting-summarizer-sharer.onrender.com/api/transcripts/manual',
+          `${backendURL}/api/transcripts/manual`,
           { transcript: text }
         )
         console.log('Manual transcript saved:', res.data)
