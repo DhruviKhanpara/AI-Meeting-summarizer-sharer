@@ -4,13 +4,18 @@ dotenv.config();
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 import summaryRoutes from "./src/routes/summaryRoutes.js";
 import emailRoutes from "./src/routes/emailRoutes.js";
 import transcriptRoutes from "./src/routes/transcriptRoutes.js";
 
 const app = express();
-const path = require('path');
 
 app.use(cors({
   origin: '*',
