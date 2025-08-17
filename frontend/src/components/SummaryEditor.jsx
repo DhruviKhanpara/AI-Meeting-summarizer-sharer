@@ -22,7 +22,7 @@ function SummaryEditor({ transcript, prompt, summary, setPrompt, setSummary, set
   const generateSummary = async () => {
     setLoading(true) // Set loading to true
     try {
-      const res = await axios.post('http://localhost:5000/api/summary', {
+      const res = await axios.post('https://ai-meeting-summarizer-sharer.onrender.com/api/summary', {
         transcript,
         prompt
       })

@@ -58,7 +58,7 @@ function TranscriptUpload({ onUpload }) {
         formData.append('file', file)
 
         const res = await axios.post(
-          'http://localhost:5000/api/transcripts/file',
+          'https://ai-meeting-summarizer-sharer.onrender.com/api/transcripts/file',
           formData,
           { headers: { 'Content-Type': 'multipart/form-data' } }
         )
@@ -72,7 +72,7 @@ function TranscriptUpload({ onUpload }) {
         }
 
         const res = await axios.post(
-          'http://localhost:5000/api/transcripts/manual',
+          'https://ai-meeting-summarizer-sharer.onrender.com/api/transcripts/manual',
           { transcript: text }
         )
         console.log('Manual transcript saved:', res.data)

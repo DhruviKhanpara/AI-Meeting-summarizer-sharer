@@ -44,7 +44,7 @@ function EmailShare({ transcript, prompt, summary, htmlSummary }) {
   const handleSend = async () => {
     setLoading(true) // Start loader
     try {
-      await axios.post('http://localhost:5000/api/email', {
+      await axios.post('https://ai-meeting-summarizer-sharer.onrender.com/api/email', {
         summary: emailContent,
         recipients: tags.map(tag => tag.text),
         transcript: transcript.replace(/\n/g, '<br/>'),
